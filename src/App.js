@@ -33,12 +33,30 @@ class App extends Component {
 
   }
 
+  submitNote = (data) => {
+    axios.post(urlFor('notes'), data)
+    .then((res) => console.log({showNote: false }))
+    .catch((err) => console.log(err.response.data));
+  }
+
   render() {
     const { showNote, notes, note } = this.state;
+
     return (
       <div className="App">
-        <Nav toggleNote={this.toggleNote} showNote={showNote}/>
-        { showNote ? <Note note={note} /> : <List getNotes={this.getNotes} notes={notes} getNote={this.getNote}/> }
+        <Nav toggleNote={this.toggleNote} showNote={showNote} />
+        {showNote ?
+          <Note
+            note={note}
+            submitNote={this.submitNote}
+          />
+          :
+          <List
+            getNotes={this.getNotes}
+            notes={notes}
+            getNote={this.getNote}
+          />
+        }
       </div>
     );
   }
