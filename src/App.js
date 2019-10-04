@@ -46,15 +46,15 @@ class App extends Component {
 
   submitNote = (data, id) => {
     this.performSubmissionRequest(data, id)
-    .then((res) => console.log({showNote: false }))
-    .catch((err) => console.log(err.response.data));
+      .then((res) => console.log({showNote: false }))
+      .catch((err) => console.log(err.response.data));
   }
 
   deleteNote = (id) => {
     const newNotesState = this.state.notes.filter((note) => note.id !== id);
     axios.delete(urlFor(`notes/${id}`))
-    .then((res) => this.setState({ notes: newNotesState}))
-    .catch((err) => console.log(err.response.data));
+      .then((res) => this.setState({ notes: newNotesState}))
+      .catch((err) => console.log(err.response.data));
   }
 
   showTagForm = () => {
@@ -67,8 +67,14 @@ class App extends Component {
 
   submitTag = (data, noteId) => {
     axios.post(urlFor(`notes/${noteId}/tags`), data)
-    .then((res) => this.getNote(noteId))
-    .catch((err) => console.log(err.response.data));
+      .then((res) => this.getNote(noteId))
+      .catch((err) => console.log(err.response.data));
+  }
+
+  deleteTag = (noteId, id) => {
+     axios.delete(urlFor(`/tags/${id}`))
+      .then((res) => this.getNote(noteId) )
+      .catch((err) => console.log(err.response.data) );
   }
 
   render() {
@@ -85,6 +91,7 @@ class App extends Component {
             newTag={newTag}
             closeTagForm={this.closeTagForm}
             submitTag={this.submitTag}
+            deleteTag={this.deleteTag}
           />
           :
           <List
