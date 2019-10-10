@@ -2,7 +2,8 @@ import React from 'react';
 
 class Note extends React.Component {
 
-  onSubmit() {
+  onSubmit(e) {
+    e.preventDefault();
     const formData = {
       title : this.title.value,
       content: this.content.value
